@@ -1,0 +1,14 @@
+<Workspace
+	CID = "1"
+	NextCID = "2"
+	IconCategory = "Widgets">
+	<OpenFiles
+		CID = "1"
+		LastActive = "1">
+		<File
+			FileID = "796D88FB-414E-47F6-AFAB4B3EEB58BF4D"
+			RootPath = "$Container"
+			RelativePathname = "人机对战.gui"
+			ViewSettings = ""/>
+	</OpenFiles>
+</Workspace>

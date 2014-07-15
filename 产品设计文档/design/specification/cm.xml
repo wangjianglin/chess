@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<sect1 xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>.cm文件说明</title>
+        
+    </info>
+    <para> .cm文件是单棋谱文件，只用来描述一局棋，包括：对战、开局、中局和残局四种棋谱。文件由文件头、描述信息、局面和棋谱由四部分组成。描述信息、局面和棋谱是非必须信
+        息，对于没有棋谱的文件，可以在软件中用以存储应用程序的状态。</para>
+
+        <para><emphasis role="bold">棋子表示：</emphasis>象棋共有32个棋子，分别用0-31表示每个棋子；0-15表示红包棋子，16-31表示
+        黑色棋子。请参照下面两张图表：</para>
+        
+        
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="chess_position_red.png"/>
+            </imageobject>
+        </mediaobject>
+   <para></para>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="chess_position_black.png"/>
+            </imageobject>
+        </mediaobject>
+    
+    
+    <para><emphasis role="bold">棋子位置表示：</emphasis>
+        用一字节来表示一个棋子的具体位置，具体位置参照下图，棋子放到中间非蓝色的9×10区域内，下面部分为红方，上面部分为黑方。
+    </para>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="chess_layout.png"/>
+        </imageobject>
+    </mediaobject>
+    <para>
+        <orderedlist>
+            <listitem>
+                <para>文件头</para>
+                <para>文件以'chess'开始，后跟两个字节的标记位，0位表示谁先走棋，1位表示是否为残局（包括自己摆的） <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="file-header.png"/>
+                        </imageobject>
+                    </mediaobject>
+                   
+                    <itemizedlist>
+                        <listitem>
+                            <para>0位：用于表示谁先走棋；值为0表示红方先走，1表示黑方先走</para>
+                        </listitem>
+                        <listitem>
+                            <para>1-3位：用于表示棋谱类型；值为0表示对战，1表示是开局，2表示中局，3表示残局</para>
+                        </listitem>
+                        <listitem>
+                            <para>4-15位：保留</para>
+                        </listitem>
+                    </itemizedlist></para>
+            </listitem>
+            <listitem>
+                <para>描述信息</para>
+                <para>描述信息是以BASE64编码的xml文件，xml文件格式如下：</para>
+                <para>
+                    <literallayout>&lt;?xml version="1.0" encoding="UTF-8"&gt; 
+    &lt;infos&gt; 
+        &lt;black&gt;
+            &lt;name&gt;黑方姓名&lt;/name&gt;
+            &lt;info&gt;黑方简介&lt;/info&gt;;
+            &lt;desc&gt;黑方详细描述&lt;/desc&gt;
+        &lt;/black&gt;
+        &lt;red&gt;
+            &lt;name&gt;红方姓名&lt;/name&gt;
+            &lt;info&gt;红方简介&lt;/info&gt;;
+            &lt;desc&gt;红方详细描述&lt;/desc&gt;
+        &lt;/red&gt;
+        &lt;feferee&gt;
+            &lt;name&gt;裁判姓名&lt;/name&gt;
+            &lt;info&gt;裁判简介&lt;/info&gt;;
+            &lt;desc&gt;裁判详细描述&lt;/desc&gt;
+        &lt;/feferee&gt;
+         &lt;name&gt;棋谱名称&lt;/name&gt;
+         &lt;desc&gt;对本棋谱进行描述说明&lt;/desc&gt;
+         &lt;dateTime&gt;
+              &lt;start&gt;yyyy-MM-dd HH:mm:ss&lt;/start&gt;
+                  &lt;puase&gt;
+                      &lt;start&gt;yyyy-MM-dd HH:mm:ss&lt;/start&gt;
+                      &lt;end&gt;yyyy-MM-dd HH:mm:ss&lt;/end&gt;
+                  &lt;/puase&gt;
+              &lt;end&gt;yyyy-MM-dd HH:mm:ss&lt;/end&gt;
+         &lt;/dataTime&gt;
+         &lt;address&gt;地点&lt;/address&gt;
+         &lt;events&gt;
+              &lt;name&gt;赛事名称&lt;/name&gt;
+              &lt;info&gt;赛事简介&lt;/info&gt;;
+              &lt;desc&gt;赛事详细描述&lt;/desc&gt;
+         &lt;/events&gt;
+       &lt;/infos&gt;
+                    </literallayout>
+                
+                </para>
+            <para>以0xFF表示base64字符串结束</para>
+            </listitem>
+            <listitem>
+                <para>局面</para>
+                <para>局面用以描述开始时棋面上各棋子所在位置的信息，有两个字节表示一个棋子的位置</para>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="chess_phase.png"/>
+                    </imageobject>
+                </mediaobject>
+                <itemizedlist>
+                    <listitem><para>13-15位：保留，用0填充</para></listitem>
+                    <listitem><para>8-12位：表示棋子，与棋子表示中描述的一致</para></listitem>
+                    <listitem><para>0-7位：表示柜子位置，与棋子位置表示中描述的一致</para></listitem>
+                </itemizedlist>
+                <para>连续两个0xFF表示局面描述完毕。</para>
+            </listitem>
+        <listitem>
+            <para>棋谱</para>
+            <para>棋谱采用树形结构表示，如：残局有时会多种走法；如下图所示：</para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="chess_manual_struct.png"/>
+                </imageobject>
+            </mediaobject>
+            <para>用来描述本局棋子走动，有5个字节表示一步棋。第一个字节表示棋子，第二个字节表示将要走到的位置，如果第一个字节为0xFF，第二个字节为0，则表示是分支节点。第一个为0xFF，第一不为0表示此分支结束，
+                此时1表示是和棋，2表示红方胜，3表示黑方胜，其他表示是开局或中局，无胜方。 
+            
+            后三个字节表示走棋的具体时间，是相对上一棋的时间偏移量，以毫秒为单位
+            </para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="chess_manual.png"/>
+                </imageobject>
+            </mediaobject>
+            <itemizedlist>
+                <listitem><para>1中的5-7位：有以标识棋谱的状态，8表示分支或结束，非8表示是棋谱</para>
+                    <para>值若为8，此时无2部分数据，1中0-4值表示：</para>
+                    <itemizedlist audience="">
+                        <listitem><para>32：分支结束标识，其他都表示此分支结束</para></listitem>
+                        <listitem><para>0：表示此分支为和棋，由裁判判定或由规则确定和棋</para></listitem>
+                        <listitem><para>1：表示此分支为和棋，由红方请求和棋，黑方同意</para></listitem>
+                        <listitem><para>2：表示此分支为和棋，由黑方请求和棋，红方同意</para></listitem>
+                        <listitem><para>3：表示此分支红方胜，由裁判判定或由规则确定红方胜</para></listitem>
+                        <listitem><para>4：表示此分支红方胜，黑方主动认输</para></listitem>
+                        <listitem><para>2：表示此分支黑方胜，由裁判判定或由规则确定黑方胜</para></listitem>
+                        <listitem><para>2：表示此分支黑方胜，红方主动认输</para></listitem>
+                        <listitem><para>其他：仅表示此分支结束，无胜方</para></listitem>
+                </itemizedlist>
+                    <para>值若非8，则1中0-4值表示棋子，，与棋子表示中描述的一致</para>
+                </listitem>
+                <listitem><para>2中的0-23位：表示走棋的具体时间，是与上一步的时间差，以毫秒为单位；若全1，则表示无时间，如开局、中局和残局</para></listitem>
+                <listitem><para>2中的24-31位：表示柜子位置，与棋子位置表示中描述的一致</para></listitem>
+            </itemizedlist>
+        </listitem>
+        </orderedlist> 
+    
+    </para>
+    <para>采用大端方式存储</para>
+    <para>保留内容全部用0填充，以免出现错误</para>
+</sect1>

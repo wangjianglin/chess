@@ -1,0 +1,17 @@
+<Catalogue
+	CID = "1"
+	NextCID = "2">
+	<Files
+		CID = "1">
+		<FileInfo
+			ID = "796D88FB-414E-47F6-AFAB4B3EEB58BF4D"
+			RelativePath = "人机对战.gui"
+			OriginalRoot = "$Project"
+			OriginalPath = "人机对战.gui"/>
+		<FileInfo
+			ID = "886EB76D-4B9F-4F9F-8A915EC384ACE8CA"
+			RelativePath = "img\chess_image.jpg"
+			OriginalRoot = "$Project"
+			OriginalPath = "img\chess_image.jpg"/>
+	</Files>
+</Catalogue>

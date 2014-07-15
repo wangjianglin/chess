@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.0/rng/docbook.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<chapter xmlns="http://docbook.org/ns/docbook"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    
+    <title>棋谱文件格式规范</title>
+    <subtitle>Subtitle of Chapter</subtitle>
+    <para>
+        文件与.chess为后缀，以'chess'为文件的开始，后面紧跟一个字节，表示棋谱类型，0：表示中国象棋棋谱，1：表示国际象棋棋谱
+        
+    </para>
+    
+    <para>棋局解说</para>
+    
+    <xi:include href="suffix.xml"/>
+    <xi:include href="cm.xml"/>
+ <!--   <sect1>
+        <info>
+            <title>后缀名说明</title>
+            
+        </info>
+        <para>
+            <orderedlist>
+                <listitem>
+                    <para>.cm 单棋谱文件，以二进制文件方式描述棋谱</para>
+                </listitem>
+                <listitem>
+                    <para>.cmzip
+                        多棋谱文件，把多个单棋谱文件以zip格式压缩在一起，里面既可以包含.cm文件，也可以包含.cmm文件，但不能包含.cmzip文件</para>
+                </listitem>
+                <listitem>
+                    <para>.ccm 单棋谱文件，以汉字明文方式进行描述</para>
+                </listitem>
+            </orderedlist>
+        </para>
+    </sect1>-->
+    
+</chapter>
