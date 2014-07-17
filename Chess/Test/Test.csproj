@@ -94,15 +94,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\code\lin\dotnet\Core\Core.WPF.csproj">
+    <ProjectReference Include="..\..\..\dotnet\Core\Core.WPF.csproj">
       <Project>{ef7b23ca-42bb-4a6f-aa05-46ce65b9516f}</Project>
       <Name>Core.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\code\lin\dotnet\Plugin\Plugin.csproj">
+    <ProjectReference Include="..\..\..\dotnet\Plugin\Plugin.csproj">
       <Project>{5da527f1-87ac-424e-98dd-687c8c6dd33b}</Project>
       <Name>Plugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\code\lin\dotnet\Util\Util.csproj">
+    <ProjectReference Include="..\..\..\dotnet\Util\Util.csproj">
       <Project>{8566a665-1bbd-472c-b0d7-037d261472ea}</Project>
       <Name>Util</Name>
     </ProjectReference>

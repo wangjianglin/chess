@@ -23,7 +23,7 @@ namespace Test
     {
         public MainWindow()
         {
-            this.DataContext = new VM();
+            //this.DataContext = new VM();
             InitializeComponent();
         }
     }

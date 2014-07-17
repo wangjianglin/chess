@@ -7,11 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess", "Chess\Chess.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F57CD193-9ACC-4E05-A7E1-F3219FF3D44B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.WPF", "..\..\..\code\lin\dotnet\Core\Core.WPF.csproj", "{EF7B23CA-42BB-4A6F-AA05-46CE65B9516F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.WPF", "..\..\dotnet\Core\Core.WPF.csproj", "{EF7B23CA-42BB-4A6F-AA05-46CE65B9516F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "..\..\..\code\lin\dotnet\Util\Util.csproj", "{8566A665-1BBD-472C-B0D7-037D261472EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin", "..\..\dotnet\Plugin\Plugin.csproj", "{5DA527F1-87AC-424E-98DD-687C8C6DD33B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin", "..\..\..\code\lin\dotnet\Plugin\Plugin.csproj", "{5DA527F1-87AC-424E-98DD-687C8C6DD33B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "..\..\dotnet\Util\Util.csproj", "{8566A665-1BBD-472C-B0D7-037D261472EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,16 +53,6 @@ Global
 		{EF7B23CA-42BB-4A6F-AA05-46CE65B9516F}.Release|Mixed Platforms.Build.0 = Release|x86
 		{EF7B23CA-42BB-4A6F-AA05-46CE65B9516F}.Release|x86.ActiveCfg = Release|x86
 		{EF7B23CA-42BB-4A6F-AA05-46CE65B9516F}.Release|x86.Build.0 = Release|x86
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -73,6 +63,16 @@ Global
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5DA527F1-87AC-424E-98DD-687C8C6DD33B}.Release|x86.ActiveCfg = Release|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8566A665-1BBD-472C-B0D7-037D261472EA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
