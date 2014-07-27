@@ -10,7 +10,7 @@ namespace Lin.Chess
     {
         static BlackCannons()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(BlackCannons), new FrameworkPropertyMetadata(typeof(BlackCannons)));
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(BlackCannons), new FrameworkPropertyMetadata(typeof(BlackCannons)));
         }
         internal BlackCannons(int code, byte? pos = null) : base(code, pos) { }
     }

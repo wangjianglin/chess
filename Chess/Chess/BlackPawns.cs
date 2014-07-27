@@ -7,6 +7,10 @@ namespace Lin.Chess
 {
     public class BlackPawns : Pawns
     {
-        internal BlackPawns(int code, byte? pos = null) : base(code, pos) { }
+        internal BlackPawns(int code, byte? pos = null)
+            : base(code, pos)
+        {
+            this.Chess = "卒";
+        }
     }
 }

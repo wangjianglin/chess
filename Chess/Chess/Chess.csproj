@@ -71,7 +71,9 @@
     <Compile Include="BlackRooks.cs" />
     <Compile Include="Cannons.cs" />
     <Compile Include="CheckerboardView.cs" />
+    <Compile Include="ChessControl.cs" />
     <Compile Include="ChessPiece.cs" />
+    <Compile Include="ChessView.cs" />
     <Compile Include="Elephants.cs" />
     <Compile Include="IConverter.cs" />
     <Compile Include="King.cs" />
@@ -86,6 +88,8 @@
     <Compile Include="RedPawns.cs" />
     <Compile Include="RedRooks.cs" />
     <Compile Include="Rooks.cs" />
+    <Compile Include="TwoBattleChessControl.cs" />
+    <Compile Include="TwoBattleChessView.cs" />
     <Compile Include="Views\Chess.xaml.cs">
       <DependentUpon>Chess.xaml</DependentUpon>
     </Compile>
@@ -103,6 +107,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic\CheckerboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\ChessPiece.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic\TwoBattleChessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,8 +146,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Themes\Generic\font\方正隶书简体.ttf" />
+    <Resource Include="Themes\Generic\font\方正隶书繁体.ttf" />
+    <Resource Include="Themes\Generic\font\方正小篆体.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Themes\Generic\Images\BlackChess.png" />
+    <Resource Include="Themes\Generic\Images\RedChess.png" />
+    <Resource Include="Themes\Generic\Images\RedKing.png" />
     <Resource Include="Images\BA.BMP" />
     <Resource Include="Images\BB.BMP" />
     <Resource Include="Images\BC.BMP" />

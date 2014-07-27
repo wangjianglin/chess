@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:local="clr-namespace:Lin.Chess"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="local:ChessPiece">
+        <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Background="Transparent" Width="{Binding Size}" Height="{Binding Size}" Margin="{Binding Margin}">
+                        <Ellipse x:Name="PATH_ChessContent" Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Image Visibility="{Binding RedVisibility}" Source="/Lin.Chess;Component/Themes/Generic/Images/RedChess.png" Width="{Binding Diameter}" Height="{Binding Diameter}"/>
+                        <Image Visibility="{Binding BlackVisibility}" Source="/Lin.Chess;Component/Themes/Generic/Images/BlackChess.png" Width="{Binding Diameter}" Height="{Binding Diameter}"/>
+                        <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Chess}" Foreground="{Binding FontColor}" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正隶书繁体" FontSize="{Binding FontSize}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

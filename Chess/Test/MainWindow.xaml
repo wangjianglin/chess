@@ -2,9 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lin="http://lin/2012/xaml/presentation"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="650" Width="525">
     <Grid>
-        <lin:CheckerboardView/>
+        <lin:TwoBattleChessView/>
         
         <!--<Button CommandParameter="{Binding}" Command="{Binding command}" Content="test" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         

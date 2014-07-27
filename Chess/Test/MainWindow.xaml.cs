@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 
 namespace Test
 {
+   
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -46,7 +48,7 @@ namespace Test
             Console.WriteLine("ok.");
         }
 
-        [PropertyChanaged("Text")]
+        [PropertyChanged("Text")]
         private void TextChanged()
         {
             Console.WriteLine("ok.");

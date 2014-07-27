@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lin.Util;
+using System;
 using System.Activities.Presentation.Metadata;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,145 +10,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
 
 
 namespace Lin.Chess
 {
 
-    [ValueConversion(typeof(string), typeof(int))]
-    public class NumberConverter : System.ComponentModel.TypeConverter
-    {
-        public NumberConverter(Type targetType)
-        {
-        }
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return base.CanConvertTo(context, destinationType);
-        }
-
-        public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
-        {
-            return base.CreateInstance(context, propertyValues);
-        }
-
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            //return base.ConvertFrom(context, culture, value);
-            //return 200L;
-            int argInt;
-            string numberString = (string)value;
-            numberString = numberString.Substring(2);
-            if (Int32.TryParse(numberString,
-                        NumberStyles.HexNumber,
-                        CultureInfo.ReadOnly(new CultureInfo("en-us", false)).NumberFormat,
-                        out argInt))
-            {
-                //arg = argInt;
-            }
-            return argInt;
-        }
-
-        public override bool IsValid(ITypeDescriptorContext context, object value)
-        {
-            return base.IsValid(context, value);
-        }
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return true;
-        }
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    
-
-    public class NumberTypeDescriptionProvider : TypeDescriptionProvider
-    {
-        private Type target;
-        public NumberTypeDescriptionProvider(Type target)
-        {
-            this.target = target;
-        }
-        public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
-        {
-            return new NumberCustomTypeDescriptor(this.target);
-        }
-    }
-
-    public class NumberCustomTypeDescriptor : ICustomTypeDescriptor
-    {
-        private Type target;
-        public NumberCustomTypeDescriptor(Type target)
-        {
-            this.target = target;
-        }
-        public AttributeCollection GetAttributes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetClassName()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetComponentName()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TypeConverter GetConverter()
-        {
-            return new NumberConverter(target);
-        }
-
-        public EventDescriptor GetDefaultEvent()
-        {
-            throw new NotImplementedException();
-        }
-
-        public PropertyDescriptor GetDefaultProperty()
-        {
-            throw new NotImplementedException();
-        }
-
-        public object GetEditor(Type editorBaseType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public EventDescriptorCollection GetEvents(Attribute[] attributes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public EventDescriptorCollection GetEvents()
-        {
-            throw new NotImplementedException();
-        }
-
-        public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PropertyDescriptorCollection GetProperties()
-        {
-            throw new NotImplementedException();
-        }
-
-        public object GetPropertyOwner(PropertyDescriptor pd)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class CheckerboardView:Control
     {
@@ -157,29 +25,108 @@ namespace Lin.Chess
             private double width = 0;
             private double marginHeight = 0;
             private double marginWidth = 0;
-            private double interval = 0;
+            //private double Interval = 0;
             CheckerboardView view;
-            public void setWidth(double width)
+            public void setWidth(double width,double height)
             {
-                interval = width / 9.5;
-                marginHeight = marginWidth = interval * 0.75;
+                double wInterval = width / 9.5;
+                double hInterval = height / 10.5;
+                self.Interval = wInterval < hInterval?wInterval:hInterval;
+                //self.Interval = width / 9.5;
+                self.CheckerboardWidth = self.Interval * 8;
+                self.CheckerboardHeight = self.Interval * 9;
+                self.FontSize = self.Interval * 0.75;
+                self.FontWidth = self.Interval * 4.7;
+                //marginHeight = marginWidth = self.Interval * 0.75;
+                marginWidth = (width - self.CheckerboardWidth) / 2.0;
+                marginHeight = (height - self.CheckerboardHeight) / 2.0;
                 this.width = width;
                 this.OnPropertyChanged("Positions");
+                this.OnPropertyChanged("PositionMark");
+
+                self.BorderTop = marginHeight - 3;
+                self.BorderLeft = marginWidth - 3;
+                self.BorderBottom = height - marginHeight + 3;
+                self.BorderRight = width - marginWidth + 3;
+                //self.PositionMark = CreatePositionMark();// "M 10,10 L 100,100";
+            }
+            private Point[] CreatePositionMark(long pos, int type)
+            {
+                double w = self.Interval * 0.2;//标记的长度
+                double m = self.Interval * 0.07;//标记离线的距离
+
+                Point p = _positions[pos];
+                Point[] result = new Point[3];// {new Point();new Point();new Point()};
+                result[0] = new Point();
+                result[1] = new Point();
+                result[2] = new Point();
+
+                switch (type)
+                {
+                    case 0://right-top
+                        //result = " " + (p.X + w + m) + "," + (p.Y - m) + " " + (p.X + m) + "," + (p.Y - m) + " " + (p.X + m) + "," + (p.Y - w - m) + " ";
+                        result[0].X = p.X + w + m;
+                        result[0].Y = p.Y - m;
+                        result[1].X = p.X + m;
+                        result[1].Y = p.Y - m;
+                        result[2].X = p.X + m;
+                        result[2].Y = p.Y - w - m;
+                        break;
+                    case 1://left-top
+                        //result = " " + (p.X - w - m) + "," + (p.Y + m) + " " + (p.X - m) + "," + (p.Y + m) + " " + (p.X - m) + "," + (p.Y + w + m) + " ";
+                        result[0].X = p.X - w - m;
+                        result[0].Y = p.Y - m;
+                        result[1].X = p.X - m;
+                        result[1].Y = p.Y - m;
+                        result[2].X = p.X - m;
+                        result[2].Y = p.Y - w - m;
+                        break;
+                    case 2://left-bottom
+                        //result = " " + (p.X - w - m) + "," + (p.Y - m) + " " + (p.X - m) + "," + (p.Y - m) + " " + (p.X - m) + "," + (p.Y - w - m) + " ";
+                        result[0].X = p.X - w - m;
+                        result[0].Y = p.Y + m;
+                        result[1].X = p.X - m;
+                        result[1].Y = p.Y + m;
+                        result[2].X = p.X - m;
+                        result[2].Y = p.Y + w + m;
+                        break;
+                    case 3://right-bottom
+                        //result = " " + (p.X + w + m) + "," + (p.Y + m) + " " + (p.X + m) + "," + (p.Y + m) + " " + (p.X + m) + "," + (p.Y + w + m) + " ";
+                        result[0].X = p.X + w + m;
+                        result[0].Y = p.Y + m;
+                        result[1].X = p.X + m;
+                        result[1].Y = p.Y + m;
+                        result[2].X = p.X + m;
+                        result[2].Y = p.Y + w + m;
+                        break;
+                }
+                return result;
             }
 
-            private Lin.Util.ReadOnlyIndexProperty<long, Point> positions = null;
-            public CheckerboardViewModel(CheckerboardView view,double width)
+            private ReadOnlyIndexProperty<long, Point> _positions = null;
+            //private ReadOnlyIndexProperty<long[], String> _positionMark = null;
+            public CheckerboardViewModel(CheckerboardView view,double width,double height)
             {
-                this.setWidth(width);
-                this.view = view;
-                positions = new Util.ReadOnlyIndexProperty<long, Point>(pos =>
+                _positions = new Util.ReadOnlyIndexProperty<long, Point>(pos =>
                 {
                     long x = pos % 16;
                     long y = pos / 16;
-                    return new Point((x-3) * this.interval +this. marginWidth,(y-3)*this.interval+this.marginHeight);
+                    return new Point((x - 3) * self.Interval + this.marginWidth, (y - 3) * self.Interval + this.marginHeight);
                 });
-
-                self.Positions = positions;
+                self.PositionMark = new ReadOnlyIndexProperty<long, Point[][]>(pos => {
+                    return new Point[][] { CreatePositionMark(pos, 0) ,
+                                                CreatePositionMark(pos,1),
+                                                CreatePositionMark(pos,2),
+                                                CreatePositionMark(pos,3)};
+                });
+                this.setWidth(width,height);
+                self.StrokeThickness = 1.0;
+                self.Stroke = new SolidColorBrush(Colors.Black);
+                self.BorderStrokeThickness =2.0;
+                self.BorderStroke = new SolidColorBrush(Colors.Black);
+               
+                this.view = view;
+                self.Positions = _positions;
             }
 
             //[Command(nmae="")]
@@ -197,7 +144,8 @@ namespace Lin.Chess
         static CheckerboardView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CheckerboardView), new FrameworkPropertyMetadata(typeof(CheckerboardView)));
-            TypeDescriptor.AddProvider(new NumberTypeDescriptionProvider(typeof(long)), typeof(long));
+            //TypeDescriptor.AddProvider(new NumberTypeDescriptionProvider(typeof(long)), typeof(long));
+            //TypeDescriptor.AddProvider(new NumberTypeDescriptionProvider(typeof(long)), typeof(long[]));
 
             //　使用AttributeTableBuilder给string添加一个新的属性
             //AttributeTableBuilder builder = new AttributeTableBuilder();
@@ -234,20 +182,22 @@ namespace Lin.Chess
         {
         }
 
+        public ChessControl Control { get; set; }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
-            vm.setWidth(sizeInfo.NewSize.Width);
+            vm.setWidth(sizeInfo.NewSize.Width,sizeInfo.NewSize.Height);
+            RefeshPos();
         }
 
-        private CheckerboardViewModel vm = null;
+        private dynamic vm = null;
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            vm = new CheckerboardViewModel(this,this.ActualWidth);
+            vm = new CheckerboardViewModel(this,this.ActualWidth,this.ActualHeight);
             this.DataContext = vm;
-            DependencyObject board = this.GetTemplateChild("PATH_Board");
+            Canvas board = (Canvas)this.GetTemplateChild("PATH_Board");
             for (byte n = 0; n < 32; n++)
             {
                 pieces[n] = BuildChessPices(n);
@@ -255,6 +205,21 @@ namespace Lin.Chess
             }
         }
 
+        private void RefeshPos()
+        {
+            for (byte n = 0; n < 32; n++)
+            {
+                Canvas.SetLeft(pieces[n], vm.Positions[pieces[n].Position].X);
+                Canvas.SetTop(pieces[n], vm.Positions[pieces[n].Position].Y);
+                pieces[n].Size = vm.Interval;
+            }
+        }
+
+
+        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+        }
 
         private static ChessPiece BuildChessPices(byte code, byte? position = null)
         {
@@ -326,4 +291,161 @@ namespace Lin.Chess
             return piece;
         }
     }
+
+
+    //[ValueConversion(typeof(string), typeof(int))]
+    //public class NumberConverter : System.ComponentModel.TypeConverter
+    //{
+    //    public NumberConverter(Type targetType)
+    //    {
+    //    }
+    //    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+    //    {
+    //        return base.CanConvertTo(context, destinationType);
+    //    }
+
+    //    public override object CreateInstance(ITypeDescriptorContext context, System.Collections.IDictionary propertyValues)
+    //    {
+    //        return base.CreateInstance(context, propertyValues);
+    //    }
+
+
+    //    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+    //    {
+    //        //return base.ConvertFrom(context, culture, value);
+    //        //return 200L;
+    //        int argInt;
+    //        if (value == null || (typeof(string) != value.GetType() && typeof(String) != value.GetType()))
+    //        {
+    //            return 0L;
+    //        }
+    //        string numberString = (string)value;
+    //        numberString = numberString.Substring(2);
+    //        if (numberString.ToLower().StartsWith("0x"))
+    //        {
+    //            argInt = Int32.Parse(numberString,
+    //                        NumberStyles.HexNumber,
+    //                        CultureInfo.ReadOnly(new CultureInfo("en-us", false)).NumberFormat);
+    //        }
+    //        //else if (numberString.ToLower().StartsWith("0"))
+    //        //{
+    //        //    argInt = Int32.Parse(numberString,
+    //        //                NumberStyles.,
+    //        //                CultureInfo.ReadOnly(new CultureInfo("en-us", false)).NumberFormat);
+    //        //}
+    //        //else if (numberString.ToLower().StartsWith("0x"))
+    //        //{
+    //        //    argInt = Int32.Parse(numberString,
+    //        //                NumberStyles.HexNumber,
+    //        //                CultureInfo.ReadOnly(new CultureInfo("en-us", false)).NumberFormat);
+    //        //}
+    //        else
+    //        {
+    //            argInt = Int32.Parse(numberString,
+    //                        NumberStyles.HexNumber,
+    //                        CultureInfo.ReadOnly(new CultureInfo("en-us", false)).NumberFormat);
+    //        }
+    //        return argInt;
+    //    }
+
+    //    public override bool IsValid(ITypeDescriptorContext context, object value)
+    //    {
+    //        return base.IsValid(context, value);
+    //    }
+    //    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+    //    {
+    //        return true;
+    //    }
+    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
+
+
+    //public class NumberTypeDescriptionProvider : TypeDescriptionProvider
+    //{
+    //    private Type target;
+    //    public NumberTypeDescriptionProvider(Type target)
+    //    {
+    //        this.target = target;
+    //    }
+    //    public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
+    //    {
+    //        return new NumberCustomTypeDescriptor(this.target);
+    //    }
+    //}
+
+    //public class NumberCustomTypeDescriptor : ICustomTypeDescriptor
+    //{
+    //    private Type target;
+    //    public NumberCustomTypeDescriptor(Type target)
+    //    {
+    //        this.target = target;
+    //    }
+    //    public AttributeCollection GetAttributes()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public string GetClassName()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public string GetComponentName()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public TypeConverter GetConverter()
+    //    {
+    //        return new NumberConverter(target);
+    //    }
+
+    //    public EventDescriptor GetDefaultEvent()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public PropertyDescriptor GetDefaultProperty()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public object GetEditor(Type editorBaseType)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public EventDescriptorCollection GetEvents(Attribute[] attributes)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public EventDescriptorCollection GetEvents()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public PropertyDescriptorCollection GetProperties()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public object GetPropertyOwner(PropertyDescriptor pd)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

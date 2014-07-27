@@ -6,5 +6,7 @@
         <!--<ResourceDictionary Source="pack://application:,,,/;component/Themes/Generic/CheckerboardView.xaml"/>-->
         <ResourceDictionary Source="/Lin.Chess;component/Themes/Generic/CheckerboardView.xaml"/>
         <ResourceDictionary Source="/Lin.Chess;component/Themes/Generic/BlackCannons.xaml"/>
+        <ResourceDictionary Source="/Lin.Chess;component/Themes/Generic/ChessPiece.xaml"/>
+        <ResourceDictionary Source="/Lin.Chess;component/Themes/Generic/TwoBattleChessView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

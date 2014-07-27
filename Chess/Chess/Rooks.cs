@@ -7,7 +7,9 @@ namespace Lin.Chess
 {
     public abstract class Rooks:ChessPiece
     {
-        internal Rooks(int code, byte? pos = null):base(code, pos) {}
+        internal Rooks(int code, byte? pos = null):base(code, pos) {
+            this.Chess = "车";
+        }
 
         public override int[] Setps
         {

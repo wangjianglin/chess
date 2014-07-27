@@ -7,6 +7,8 @@ namespace Lin.Chess
 {
     public class BlackElephants:Elephants
     {
-        internal BlackElephants(int code, byte? pos = null) : base(code, pos) { }
+        internal BlackElephants(int code, byte? pos = null) : base(code, pos) {
+            this.Chess = "象";
+        }
     }
 }
