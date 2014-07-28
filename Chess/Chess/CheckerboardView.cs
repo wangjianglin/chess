@@ -19,6 +19,7 @@ namespace Lin.Chess
 
     public class CheckerboardView:Control
     {
+        public event SelectedEventHandler Selected;
         //在VM中确定各个棋子与屏幕上显示的位置，
         private class CheckerboardViewModel : Lin.Core.ViewModel.ViewModel
         {
@@ -201,7 +202,29 @@ namespace Lin.Chess
             for (byte n = 0; n < 32; n++)
             {
                 pieces[n] = BuildChessPices(n);
-                //board.Children.Add(pieces[n]);
+                pieces[n].Selected += (object sender, SelectedEventArgs args) =>
+                {
+                    if (this.Selected != null)
+                    {
+                        this.Selected(this, args);
+                    }
+                };
+                board.Children.Add(pieces[n]);
+            }
+        }
+
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //base.OnMouseDown(e);
+            if (this.Selected != null)
+            {
+                Mouse mouse = Mouse.Left;
+                if (e.ChangedButton == System.Windows.Input.MouseButton.Right)
+                {
+                    mouse = Mouse.Right;
+                }
+                SelectedEventArgs args = new SelectedEventArgs(256, mouse, e.ClickCount, e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y, null);
+                this.Selected(this, args);
             }
         }
 

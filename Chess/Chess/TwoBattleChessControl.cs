@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lin.Chess
 {
-    public class TwoBattleChessControl:ChessControl
+    public class TwoBattleChessControl : AbstractChessControl
     {
+        public TwoBattleChessControl(CheckerboardView checkerboard)
+            : base(checkerboard)
+        {
+
+        }
     }
 }

@@ -83,16 +83,7 @@ namespace Lin.Chess
 
         }
 
-        protected override void OnPreviewMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            //base.OnPreviewMouseLeftButtonUp(e);
-            //e.Handled = true;
-        }
-        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
-        {
-            //base.OnMouseLeftButtonUp(e);
-            e.Handled = true;
-        }
+        public event SelectedEventHandler Selected;
         public abstract bool CanMove(int position);
 
         public override void OnApplyTemplate()
@@ -103,9 +94,75 @@ namespace Lin.Chess
             {
                 fe.MouseLeftButtonUp += (object sender, System.Windows.Input.MouseButtonEventArgs e) =>
                 {
-                    Console.WriteLine("ok.");
+                    //Console.WriteLine("MouseLeftButtonUp ok.");
+                };
+                fe.MouseDown += (object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+                {
+                    //Console.WriteLine("MouseDown ok.");
+                };
+                fe.MouseUp += (object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+                {
+                    //Console.WriteLine("MouseUp ok.");
+                    if (this.Selected != null)
+                    {
+                        Mouse mouse = Mouse.Left;
+                        if (e.ChangedButton == System.Windows.Input.MouseButton.Right)
+                        {
+                            mouse = Mouse.Right;
+                        }
+                        SelectedEventArgs args = new SelectedEventArgs(this.Position, mouse, e.ClickCount, e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y, this);
+                        this.Selected(this, args);
+                    }
+                };
+                fe.MouseRightButtonDown += (object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+                {
+                    //Console.WriteLine("MouseRightButtonDown ok.");
                 };
             }
+        }
+
+
+
+        protected override void OnPreviewMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+
+        protected override void OnMouseDoubleClick(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        protected override void OnPreviewMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        protected override void OnPreviewMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        protected override void OnPreviewMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+
+        protected override void OnMouseRightButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+        protected override void OnPreviewMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
+
+        protected override void OnMouseRightButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
 
     }

@@ -62,6 +62,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractChessControl.cs" />
     <Compile Include="BlackCannons.cs" />
     <Compile Include="BlackElephants.cs" />
     <Compile Include="BlackKing.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="King.cs" />
     <Compile Include="Knights.cs" />
     <Compile Include="Mandarins.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="Pawns.cs" />
     <Compile Include="RedCannons.cs" />
     <Compile Include="RedElephants.cs" />
@@ -88,6 +90,8 @@
     <Compile Include="RedPawns.cs" />
     <Compile Include="RedRooks.cs" />
     <Compile Include="Rooks.cs" />
+    <Compile Include="SelectedEvent.cs" />
+    <Compile Include="SelectedEventHandler.cs" />
     <Compile Include="TwoBattleChessControl.cs" />
     <Compile Include="TwoBattleChessView.cs" />
     <Compile Include="Views\Chess.xaml.cs">

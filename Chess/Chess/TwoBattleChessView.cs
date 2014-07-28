@@ -14,15 +14,20 @@ namespace Lin.Chess
         {
 
         }
+        
+        private ChessControl _control = null;//new TwoBattleChessControl(this.)
+        public override ChessControl Control { get { return _control; } }
         private dynamic vm = new TwoBattleChessViewVM();
 
         static TwoBattleChessView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TwoBattleChessView), new FrameworkPropertyMetadata(typeof(TwoBattleChessView)));
         }
-        public TwoBattleChessView():base(new CheckerboardView(), new TwoBattleChessControl())
+        public TwoBattleChessView()
+            : base()
         {
             this.DataContext = vm;
+            this._control = new TwoBattleChessControl(this.Checkerboard);
         }
     }
 }
