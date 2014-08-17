@@ -8,6 +8,6 @@ namespace Lin.Chess
 {
     public enum Mouse
     {
-        Right,Left
+        RightUp,RightDown,LeftUp,LeftDown
     }
 }

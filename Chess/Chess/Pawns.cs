@@ -7,15 +7,38 @@ namespace Lin.Chess
 {
     public abstract class Pawns : ChessPiece
     {
-        internal Pawns(int code, byte? pos = null) : base(code, pos) { }
-        public override int[] Setps
+        internal Pawns(int code) : base(code) { }
+
+        public override int[] Moves(Situation situation)
         {
-            get { throw new NotImplementedException(); }
+            return null;
         }
 
-        public override bool CanMove(int position)
+        private static readonly int[] setps = { -16, -1, 1, 16 };
+        public override bool CanMove(Situation situation, int dest)
         {
-            throw new NotImplementedException();
+            if (!situation.InChessboard(dest))//如果如果目标位置不在棋盘中
+            {
+                return false;
+            }
+            int setp = dest - situation.Positions[this];
+            if (situation.InHomeHalf(this, dest))//未过河
+            {
+                return (this.Code & 16) == 0 ? setp == -16 : setp == 16;
+            }
+            for (int n = 0 + ((this.Code & 16) >> 4); n < 3 + ((this.Code & 16) >> 4); n++)
+            {
+                if (setp == setps[n])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
+
+        //public override int[,] Setps
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
     }
 }

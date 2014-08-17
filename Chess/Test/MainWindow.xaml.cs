@@ -1,6 +1,8 @@
 ﻿using Lin.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +18,6 @@ using System.Windows.Shapes;
 
 namespace Test
 {
-   
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -25,43 +25,8 @@ namespace Test
     {
         public MainWindow()
         {
-            //this.DataContext = new VM();
             InitializeComponent();
         }
-    }
 
-    public class VM : Lin.Core.ViewModel.ViewModelBase
-    {
-        public VM()
-        {
-            self.Name = "ok.";
-        }
-        //public String Name { get; set; }
-        [Command("command")]
-        private void changedText(Object param)
-        {
-            //this.Text = "tmp";
-            //dynamic tmp = this;
-            //tmp.Text = "tmp";
-            self.Text = "tmp";
-            self.Name = "-----";
-            Console.WriteLine("ok.");
-        }
-
-        [PropertyChanged("Text")]
-        private void TextChanged()
-        {
-            Console.WriteLine("ok.");
-        }
-        private dynamic This()
-        {
-            return this;
-        }
-
-        [CommandCanExecute("command")]
-        private bool commandCanExceute(VM obj)
-        {
-            return true;
-        }
     }
 }

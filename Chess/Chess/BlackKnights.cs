@@ -7,6 +7,6 @@ namespace Lin.Chess
 {
     public class BlackKnights : Knights
     {
-        internal BlackKnights(int code, byte? pos = null) : base(code, pos) { }
+        internal BlackKnights(int code) : base(code) { }
     }
 }

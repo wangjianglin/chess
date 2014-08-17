@@ -7,18 +7,22 @@ namespace Lin.Chess
 {
     public abstract class Rooks:ChessPiece
     {
-        internal Rooks(int code, byte? pos = null):base(code, pos) {
+        internal Rooks(int code):base(code) {
             this.Chess = "车";
         }
 
-        public override int[] Setps
+        public override int[] Moves(Situation situation)
         {
-            get { throw new NotImplementedException(); }
+            return null;
         }
 
-        public override bool CanMove(int position)
+        public override bool CanMove(Situation situation, int dest)
         {
-            throw new NotImplementedException();
+            return true;
         }
+        //public override int[,] Setps
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
     }
 }

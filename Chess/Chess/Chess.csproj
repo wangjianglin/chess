@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lin.Chess</RootNamespace>
     <AssemblyName>Lin.Chess</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -71,9 +71,11 @@
     <Compile Include="BlackPawns.cs" />
     <Compile Include="BlackRooks.cs" />
     <Compile Include="Cannons.cs" />
-    <Compile Include="CheckerboardView.cs" />
+    <Compile Include="ChessboardViewView.cs" />
     <Compile Include="ChessControl.cs" />
     <Compile Include="ChessPiece.cs" />
+    <Compile Include="ChessPieceView.cs" />
+    <Compile Include="ChessPlayer.cs" />
     <Compile Include="ChessView.cs" />
     <Compile Include="Elephants.cs" />
     <Compile Include="IConverter.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Rooks.cs" />
     <Compile Include="SelectedEvent.cs" />
     <Compile Include="SelectedEventHandler.cs" />
+    <Compile Include="Situation.cs" />
     <Compile Include="TwoBattleChessControl.cs" />
     <Compile Include="TwoBattleChessView.cs" />
     <Compile Include="Views\Chess.xaml.cs">
@@ -110,11 +113,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic\CheckerboardView.xaml">
+    <Page Include="Themes\Generic\ChessboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic\ChessPiece.xaml">
+    <Page Include="Themes\Generic\ChessPieceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

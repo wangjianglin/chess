@@ -7,8 +7,8 @@ namespace Lin.Chess
 {
     public class RedPawns : Pawns
     {
-        internal RedPawns(int code, byte? pos = null)
-            : base(code, pos)
+        internal RedPawns(int code)
+            : base(code)
         {
             this.Chess = "兵";
         }

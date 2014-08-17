@@ -7,6 +7,6 @@ namespace Lin.Chess
 {
     public class RedCannons : Cannons
     {
-        internal RedCannons(int code, byte? pos = null) : base(code, pos) { }
+        internal RedCannons(int code) : base(code) { }
     }
 }

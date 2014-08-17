@@ -4,8 +4,10 @@
         xmlns:lin="http://lin/2012/xaml/presentation"
         Title="MainWindow" Height="650" Width="525">
     <Grid>
-        <lin:TwoBattleChessView/>
-        
+        <lin:TwoBattleChessView x:Name="chess"/>
+        <!--<lin:ChessPieceView/>-->
+        <!--<lin:CheckerboardView/>-->
+        <!--<lin:CheckerboardView/>-->
         <!--<Button CommandParameter="{Binding}" Command="{Binding command}" Content="test" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         
         <TextBox Text="{Binding Text,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,42,0,199"/>

@@ -8,7 +8,7 @@ namespace Lin.Chess
 {
     public class TwoBattleChessControl : AbstractChessControl
     {
-        public TwoBattleChessControl(CheckerboardView checkerboard)
+        public TwoBattleChessControl(ChessboardView checkerboard)
             : base(checkerboard)
         {
 

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Lin.Chess
 {
-    public class BlackRooks:Rooks
+    public enum ChessPlayer
     {
-        internal BlackRooks(int code):base(code) {}
+        Red,Black
     }
 }

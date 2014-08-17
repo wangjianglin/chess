@@ -7,7 +7,7 @@ namespace Lin.Chess
 {
     public class RedKing : King
     {
-        internal RedKing(int code, byte? pos = null) : base(code, pos) {
+        internal RedKing(int code) : base(code) {
             this.Chess = "帅";
         }
     }

@@ -1,15 +1,27 @@
-﻿using Lin.Util;
+﻿//using Lin.Core;
+//using Lin.Util;
+//using System;
+//using System.Activities.Presentation.Metadata;
+//using System.Collections.Generic;
+//using System.ComponentModel;
+//using System.Globalization;
+//using System.Linq;
+//using System.Text;
+//using System.Windows;
+//using System.Windows.Controls;
+//using System.Windows.Data;
+//using System.Windows.Markup;
+//using System.Windows.Media;
+
+using Lin.Core;
+using Lin.Util;
 using System;
-using System.Activities.Presentation.Metadata;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Markup;
 using System.Windows.Media;
 
 
@@ -17,18 +29,25 @@ namespace Lin.Chess
 {
 
 
-    public class CheckerboardView:Control
+    public class ChessboardView:Control
     {
-        public event SelectedEventHandler Selected;
-        //在VM中确定各个棋子与屏幕上显示的位置，
-        private class CheckerboardViewModel : Lin.Core.ViewModel.ViewModel
+        private class CheckerboardViewModel : ViewModel
         {
+            [PropertyChanged("Size3333333djfgnflksnfdlksdjglksfjgjsdgklsfdmjgklfsdmnb")]
+            private void SizeChange()
+            {
+                double size = self.Size;
+                self.Margin = -size / 2.0;
+                self.Diameter = size * 0.9;
+                self.FontSize = size * 0.6;
+            }
+
             private double width = 0;
             private double marginHeight = 0;
             private double marginWidth = 0;
             //private double Interval = 0;
-            CheckerboardView view;
-            public void setWidth(double width,double height)
+            //private CheckerboardView view;
+            public void setWidth(double width, double height)
             {
                 double wInterval = width / 9.5;
                 double hInterval = height / 10.5;
@@ -51,7 +70,31 @@ namespace Lin.Chess
                 self.BorderRight = width - marginWidth + 3;
                 //self.PositionMark = CreatePositionMark();// "M 10,10 L 100,100";
             }
-            private Point[] CreatePositionMark(long pos, int type)
+            public int GetPositionFromXY(double x, double y)
+            {
+                x -= marginWidth;
+                y -= marginHeight;
+                x = x / self.Interval + 3;
+                y = y / self.Interval + 3;
+                int px = (int)(x + 0.5);
+                if (px < 3 || px > 11)
+                {
+                    return 256;
+                }
+                int py = (int)(y + 0.5);
+                if (py < 3 || py > 12)
+                {
+                    return 256;
+                }
+                //if (Math.Abs(px - x) > 0.4 && Math.Abs(py - y) > 0.4)
+                if ((px - x) * (px - x) + (py - y) * (py - y) > 0.4 * 0.4)
+                {
+                    return 256;
+                }
+
+                return py * 16 + px;
+            }
+            private Point[] CreatePositionMark(long pos, int type)//炮、兵位置标识
             {
                 double w = self.Interval * 0.2;//标记的长度
                 double m = self.Interval * 0.07;//标记离线的距离
@@ -106,7 +149,7 @@ namespace Lin.Chess
 
             private ReadOnlyIndexProperty<long, Point> _positions = null;
             //private ReadOnlyIndexProperty<long[], String> _positionMark = null;
-            public CheckerboardViewModel(CheckerboardView view,double width,double height)
+            public CheckerboardViewModel(ChessboardView view,double width,double height)
             {
                 _positions = new Util.ReadOnlyIndexProperty<long, Point>(pos =>
                 {
@@ -114,26 +157,21 @@ namespace Lin.Chess
                     long y = pos / 16;
                     return new Point((x - 3) * self.Interval + this.marginWidth, (y - 3) * self.Interval + this.marginHeight);
                 });
-                self.PositionMark = new ReadOnlyIndexProperty<long, Point[][]>(pos => {
+                self.PositionMark = new ReadOnlyIndexProperty<long, Point[][]>(pos =>
+                {
                     return new Point[][] { CreatePositionMark(pos, 0) ,
                                                 CreatePositionMark(pos,1),
                                                 CreatePositionMark(pos,2),
                                                 CreatePositionMark(pos,3)};
                 });
                 this.setWidth(width,height);
-                self.StrokeThickness = 1.0;
-                self.Stroke = new SolidColorBrush(Colors.Black);
-                self.BorderStrokeThickness =2.0;
-                self.BorderStroke = new SolidColorBrush(Colors.Black);
+                self.StrokeThickness = 1.0;//线的大小
+                self.Stroke = new SolidColorBrush(Colors.Black);//线的颜色
+                self.BorderStrokeThickness =2.0;//外边框的大小
+                self.BorderStroke = new SolidColorBrush(Colors.Black);//外边框的颜色
                
-                this.view = view;
+                //this.view = view;
                 self.Positions = _positions;
-            }
-
-            //[Command(nmae="")]
-            private void Command(object param)
-            {
-
             }
 
             //采用动态类对 属性 进行扩展
@@ -142,9 +180,13 @@ namespace Lin.Chess
 
             }
         }
-        static CheckerboardView()
+
+
+        public event SelectedEventHandler Selected;
+
+        static ChessboardView()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CheckerboardView), new FrameworkPropertyMetadata(typeof(CheckerboardView)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ChessboardView), new FrameworkPropertyMetadata(typeof(ChessboardView)));
             //TypeDescriptor.AddProvider(new NumberTypeDescriptionProvider(typeof(long)), typeof(long));
             //TypeDescriptor.AddProvider(new NumberTypeDescriptionProvider(typeof(long)), typeof(long[]));
 
@@ -177,10 +219,18 @@ namespace Lin.Chess
             //Console.ReadLine();
         }
 
-        private ChessPiece[] pieces = new ChessPiece[32];
+       //private ChessPiece[] pieces = new ChessPiece[32];
+        //private ChessPiece[] pieces = new ChessPiece[256];//记录棋盘中的棋子
+        //private byte[] positions = new byte[32];//记录棋子位置
+        public ChessPieceView[] items = new ChessPieceView[33];
 
-        public CheckerboardView()
+        public Situation Situation { get; private set; }
+        public ChessboardView()
         {
+            Situation = new Situation();
+
+            vm = new CheckerboardViewModel(this, this.ActualWidth, this.ActualHeight);
+            this.SetDateContext((ViewModel)vm);
         }
 
         public ChessControl Control { get; set; }
@@ -196,123 +246,137 @@ namespace Lin.Chess
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            vm = new CheckerboardViewModel(this,this.ActualWidth,this.ActualHeight);
-            this.DataContext = vm;
+            
             Canvas board = (Canvas)this.GetTemplateChild("PATH_Board");
-            for (byte n = 0; n < 32; n++)
+
+
+            Func<ChessPiece, SelectedEventHandler> func = piece =>
             {
-                pieces[n] = BuildChessPices(n);
-                pieces[n].Selected += (object sender, SelectedEventArgs args) =>
+                SelectedEventHandler handler = (object sender, SelectedEventArgs args) =>
                 {
                     if (this.Selected != null)
                     {
-                        this.Selected(this, args);
+                        SelectedEventArgs args2 = null;
+                        if (piece == null)
+                        {
+                            args2 = new SelectedEventArgs(this.chessMarkPos, args.Mouse, args.Count, args.X, args.Y, args.Chess);
+                        }
+                        else
+                        {
+                            args2 = new SelectedEventArgs(this.Situation.Positions[piece], args.Mouse, args.Count, args.X, args.Y, args.Chess);
+                        }
+                        this.Selected(this, args2);
                     }
                 };
-                board.Children.Add(pieces[n]);
+                return handler;
+            };
+
+            
+            ChessPieceView item = null;
+            //for (int n = 0; n < this.Situation.Positions.Length; n++)
+            foreach(ChessPiece piece in this.Situation.Positions.Keys)
+            {
+                item = new ChessPieceView(this.Situation.Pieces[this.Situation.Positions[piece]]);
+                item.Selected += func(piece);
+                items[piece.Code] = item;
+                board.Children.Add(item);
+            }
+            item = new ChessPieceView();
+            item.Selected += func(null);
+            items[32] = item;
+            board.Children.Add(item);
+            
+        }
+
+        public void Move(ChessPiece piece, int position)
+        {
+            this.Situation.Move(piece, position);
+            this.RefeshPos();
+            //piece.Position = (byte)positon;
+            //Canvas.SetLeft(piece, vm.Positions[piece.Position].X);
+            //Canvas.SetTop(piece, vm.Positions[piece.Position].Y);
+        }
+
+        private int chessMarkPos = 256;
+        public void Mark(int position, bool isMark)
+        {
+            chessMarkPos = position;
+            Canvas.SetLeft(items[32], vm.Positions[position].X);
+            Canvas.SetTop(items[32], vm.Positions[position].Y);
+            items[32].Size = vm.Interval;
+            items[32].IsMark = true;
+        }
+        public bool CanMove(ChessPiece piece, int position)
+        {
+            return Situation.CanMove(piece, position);
+        }
+        private void RefeshPos()
+        {
+            ChessPieceView item = null;
+            for (int n = 0; n < 32; n++)
+            {
+                item = this.items[n];
+                if (item != null)
+                {
+                    Canvas.SetLeft(item, vm.Positions[this.Situation.Positions[item.Piece]].X);
+                    Canvas.SetTop(item, vm.Positions[this.Situation.Positions[item.Piece]].Y);
+                    item.Size = vm.Interval;
+                }
+                //Canvas.SetLeft(pieces[n], vm.Positions[pieces[n].Position].X);
+                //Canvas.SetTop(pieces[n], vm.Positions[pieces[n].Position].Y);
+                //pieces[n].Size = vm.Interval;
             }
         }
 
-        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
+        public void Mark(ChessPiece piece, bool isMark)
         {
-            //base.OnMouseDown(e);
+            this.items[piece.Code].IsMark = isMark;
+        }
+        #region 处理鼠标事件
+
+        private void FireSelected(System.Windows.Input.MouseButtonEventArgs e)
+        {
             if (this.Selected != null)
             {
-                Mouse mouse = Mouse.Left;
-                if (e.ChangedButton == System.Windows.Input.MouseButton.Right)
+                int pos = vm.GetPositionFromXY(e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y);
+                if (pos < 256 && pos >= 0)
                 {
-                    mouse = Mouse.Right;
+                    if (this.Situation.Pieces[pos] != null)//如果此处有棋子，则不响应相关事件
+                    {
+                        return;
+                    }
                 }
-                SelectedEventArgs args = new SelectedEventArgs(256, mouse, e.ClickCount, e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y, null);
+                Mouse mouse = Mouse.LeftUp;
+                if (e.ChangedButton == System.Windows.Input.MouseButton.Right && e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+                {
+                    mouse = Mouse.RightDown;
+                }
+                else if (e.ChangedButton == System.Windows.Input.MouseButton.Right && e.ButtonState == System.Windows.Input.MouseButtonState.Released)
+                {
+                    mouse = Mouse.RightUp;
+                }
+                else if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+                {
+                    mouse = Mouse.LeftDown;
+                }
+                SelectedEventArgs args = new SelectedEventArgs(pos, mouse, e.ClickCount, e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y, null);
                 this.Selected(this, args);
             }
         }
-
-        private void RefeshPos()
+        protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
         {
-            for (byte n = 0; n < 32; n++)
-            {
-                Canvas.SetLeft(pieces[n], vm.Positions[pieces[n].Position].X);
-                Canvas.SetTop(pieces[n], vm.Positions[pieces[n].Position].Y);
-                pieces[n].Size = vm.Interval;
-            }
+            //base.OnMouseDown(e);
+            FireSelected(e);
+            base.OnMouseDown(e);
         }
 
-
-        protected override void OnMouseLeftButtonUp(System.Windows.Input.MouseButtonEventArgs e)
+        protected override void OnMouseUp(System.Windows.Input.MouseButtonEventArgs e)
         {
-            base.OnMouseLeftButtonUp(e);
+            FireSelected(e);
+            base.OnMouseUp(e);
         }
+        #endregion
 
-        private static ChessPiece BuildChessPices(byte code, byte? position = null)
-        {
-            ChessPiece piece = null;
-            switch (code)
-            {
-                case 0:
-                case 1:
-                    piece = new RedRooks(code, position);
-                    break;
-                case 2:
-                case 3:
-                    piece = new RedKnights(code, position);
-                    break;
-                case 4:
-                case 5:
-                    piece = new RedElephants(code, position);
-                    break;
-                case 6:
-                case 7:
-                    piece = new RedMandarins(code, position);
-                    break;
-                case 8:
-                    piece = new RedKing(code, position);
-                    break;
-                case 9:
-                case 10:
-                    piece = new RedCannons(code, position);
-                    break;
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                    piece = new RedPawns(code, position);
-                    break;
-
-                case 0 + 16:
-                case 1 + 16:
-                    piece = new BlackRooks(code, position);
-                    break;
-                case 2 + 16:
-                case 3 + 16:
-                    piece = new BlackKnights(code, position);
-                    break;
-                case 4 + 16:
-                case 5 + 16:
-                    piece = new BlackElephants(code, position);
-                    break;
-                case 6 + 16:
-                case 7 + 16:
-                    piece = new BlackMandarins(code, position);
-                    break;
-                case 8 + 16:
-                    piece = new BlackKing(code, position);
-                    break;
-                case 9 + 16:
-                case 10 + 16:
-                    piece = new BlackCannons(code, position);
-                    break;
-                case 11 + 16:
-                case 12 + 16:
-                case 13 + 16:
-                case 14 + 16:
-                case 15 + 16:
-                    piece = new BlackPawns(code, position);
-                    break;
-            }
-            return piece;
-        }
     }
 
 
