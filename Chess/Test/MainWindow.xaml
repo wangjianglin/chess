@@ -4,7 +4,9 @@
         xmlns:lin="http://lin/2012/xaml/presentation"
         Title="MainWindow" Height="650" Width="525">
     <Grid>
-        <lin:TwoBattleChessView x:Name="chess"/>
+        <lin:BattleChessView x:Name="chess"/>
+
+        <!--<TextBlock FontSize="40" x:Name="text" Foreground="#a8bb0000" Text="184041008@qq.com" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"/>-->
         <!--<lin:ChessPieceView/>-->
         <!--<lin:CheckerboardView/>-->
         <!--<lin:CheckerboardView/>-->

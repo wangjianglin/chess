@@ -18,8 +18,14 @@ namespace Lin.Chess
     {
 
         private ChessPiece[] pieces = new ChessPiece[256];//记录棋盘中的棋子
-        private ChessPiece[] removes = new ChessPiece[32];//被移出的棋子
+        //private ChessPiece[] removes = new ChessPiece[32];//被移出的棋子
+        private ChessPiece[] codes = new ChessPiece[32];//
         private int[] positions = new int[32];//记录棋子位置
+
+        public ReadOnlyIndexProperty<int, ChessPiece> Pieces { get; private set; }
+        public ReadOnlyIndexProperty<int, ChessPiece> Codes { get; private set; }
+
+        public Lin.Util.ReadOnlyIndexProperty<ChessPiece, int> Positions { get; private set; }
 
         public Situation()
         {
@@ -29,29 +35,33 @@ namespace Lin.Chess
             {
                 piece = BuildChessPices(n);
                 pieces[POSITIONS[n]] = piece;
+                codes[n] = piece;
                 positions[n] = POSITIONS[n];
             }
             init();
         }
+        private void init()
+        {
+            this.Pieces = new ReadOnlyIndexProperty<int, ChessPiece>(pos => { return pieces[pos]; }, () => { return pieces.Length; });
+            this.Codes = new ReadOnlyIndexProperty<int, ChessPiece>(pos => { return codes[pos]; }, () => { return pieces.Length; });
+            this.Positions = new ReadOnlyIndexProperty<ChessPiece, int>(piece => { return positions[piece.Code]; }, () => { return positions.Length; });
+        }
 
-        private static readonly bool[] inBoard = {
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
-        };
+        private Situation(Situation situation)
+        {
+            for (int n = 0; n < 32; n++)
+            {
+                this.positions[n] = situation.positions[n];
+                this.codes[n] = situation.codes[n];
+                //this.removes[n] = situation.removes[n];
+            }
+            for (int n = 0; n < 256; n++)
+            {
+                this.pieces[n] = situation.pieces[n];
+            }
+            init();
+        }
+        
         /// <summary>
         /// 判断棋子是否在棋盘中
         /// </summary>
@@ -114,24 +124,6 @@ namespace Lin.Chess
 
         //AWAY_HALF
 
-        private static readonly bool[] inFort = {
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
-          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
-        };
         /// <summary>
         /// 判断指定位置是否在九宫格中
         /// </summary>
@@ -150,47 +142,17 @@ namespace Lin.Chess
         {
             return inFort[position];
         }
-        private void init()
-        {
-            this.Pieces = new ReadOnlyIndexProperty<int, ChessPiece>(pos => { return pieces[pos]; }, () => { return pieces.Length; });
-            this.Positions = new ReadOnlyIndexProperty<ChessPiece, int>(piece => { return positions[piece.Code]; }, () => { return positions.Length; }
-                , () =>
-                {
-                    ChessPiece[] tmpPiece = new ChessPiece[32];
-                    for (int n = 0; n < 32; n++)
-                    {
-                        tmpPiece[n] = pieces[positions[n]];
-                    }
-                    return tmpPiece;
-                });
-        }
-
-        private Situation(Situation situation)
-        {
-            for (int n = 0; n < 32; n++)
-            {
-                this.positions[n] = situation.positions[n];
-            }
-            for (int n = 0; n < 256; n++)
-            {
-                this.pieces[n] = situation.pieces[n];
-            }
-            init();
-        }
-        public ReadOnlyIndexProperty<int, ChessPiece> Pieces { get; private set; }
-
-
-        public Lin.Util.ReadOnlyIndexProperty<ChessPiece, int> Positions { get; private set; }
-
+       
         public void Move(ChessPiece piece, int position)
         {
             if (this.pieces[position] != null)
             {
-                this.positions[this.pieces[position].Code] = 256;
+                //this.positions[this.pieces[position].Code] = 256;
+                this.pieces[position] = null;
             }
             int code = piece.Code;
             this.pieces[position] = this.pieces[this.positions[code]];
-            this.removes[code] = this.pieces[this.positions[code]];
+            //this.removes[code] = this.pieces[this.positions[code]];
             this.pieces[this.positions[code]] = null;
             this.positions[code] = position;
         }
@@ -279,5 +241,44 @@ namespace Lin.Chess
         {
             return piece.CanMove(this, position);
         }
+
+        private static readonly bool[] inBoard = {
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, true, true, true, true, true, true, true, true, true, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        };
+
+        private static readonly bool[] inFort = {
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+          false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+        };
+
     }
 }

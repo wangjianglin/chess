@@ -31,22 +31,19 @@ namespace Lin.Chess
 
     public class ChessboardView:Control
     {
-        private class CheckerboardViewModel : ViewModel
+        private class ChessboardViewModel : ViewModel
         {
-            [PropertyChanged("Size3333333djfgnflksnfdlksdjglksfjgjsdgklsfdmjgklfsdmnb")]
-            private void SizeChange()
+            [Command("ChangeMirror")]
+            private void ChangeMirror()
             {
-                double size = self.Size;
-                self.Margin = -size / 2.0;
-                self.Diameter = size * 0.9;
-                self.FontSize = size * 0.6;
+                view.Mirror = !view.Mirror;
             }
 
             private double width = 0;
             private double marginHeight = 0;
             private double marginWidth = 0;
             //private double Interval = 0;
-            //private CheckerboardView view;
+            private ChessboardView view;
             public void setWidth(double width, double height)
             {
                 double wInterval = width / 9.5;
@@ -149,7 +146,7 @@ namespace Lin.Chess
 
             private ReadOnlyIndexProperty<long, Point> _positions = null;
             //private ReadOnlyIndexProperty<long[], String> _positionMark = null;
-            public CheckerboardViewModel(ChessboardView view,double width,double height)
+            public ChessboardViewModel(ChessboardView view,double width,double height)
             {
                 _positions = new Util.ReadOnlyIndexProperty<long, Point>(pos =>
                 {
@@ -170,7 +167,7 @@ namespace Lin.Chess
                 self.BorderStrokeThickness =2.0;//外边框的大小
                 self.BorderStroke = new SolidColorBrush(Colors.Black);//外边框的颜色
                
-                //this.view = view;
+                this.view = view;
                 self.Positions = _positions;
             }
 
@@ -225,11 +222,29 @@ namespace Lin.Chess
         public ChessPieceView[] items = new ChessPieceView[33];
 
         public Situation Situation { get; private set; }
+
+        public static readonly DependencyProperty MirrorProperty = DependencyProperty.Register("Mirror", typeof(bool), typeof(ChessboardView),
+            new PropertyMetadata(false, new PropertyChangedCallback((DependencyObject sender, DependencyPropertyChangedEventArgs args) => {
+                ChessboardView cv = sender as ChessboardView;
+                if (cv != null)
+                {
+                    cv.RefeshPos();
+                }
+            })));
+        /// <summary>
+        /// 红黑双方交接位置
+        /// </summary>
+        public bool Mirror
+        {
+            get { return (bool)this.GetValue(MirrorProperty); }
+            set { this.SetValue(MirrorProperty, value); }
+        }
         public ChessboardView()
         {
+            //this.Mirror = true;
             Situation = new Situation();
 
-            vm = new CheckerboardViewModel(this, this.ActualWidth, this.ActualHeight);
+            vm = new ChessboardViewModel(this, this.ActualWidth, this.ActualHeight);
             this.SetDateContext((ViewModel)vm);
         }
 
@@ -249,21 +264,20 @@ namespace Lin.Chess
             
             Canvas board = (Canvas)this.GetTemplateChild("PATH_Board");
 
-
-            Func<ChessPiece, SelectedEventHandler> func = piece =>
+            Func<ChessPiece, SelectedEventHandler> func = p =>
             {
                 SelectedEventHandler handler = (object sender, SelectedEventArgs args) =>
                 {
                     if (this.Selected != null)
                     {
                         SelectedEventArgs args2 = null;
-                        if (piece == null)
+                        if (p == null)
                         {
                             args2 = new SelectedEventArgs(this.chessMarkPos, args.Mouse, args.Count, args.X, args.Y, args.Chess);
                         }
                         else
                         {
-                            args2 = new SelectedEventArgs(this.Situation.Positions[piece], args.Mouse, args.Count, args.X, args.Y, args.Chess);
+                            args2 = new SelectedEventArgs(this.Situation.Positions[p], args.Mouse, args.Count, args.X, args.Y, args.Chess);
                         }
                         this.Selected(this, args2);
                     }
@@ -273,12 +287,14 @@ namespace Lin.Chess
 
             
             ChessPieceView item = null;
-            //for (int n = 0; n < this.Situation.Positions.Length; n++)
-            foreach(ChessPiece piece in this.Situation.Positions.Keys)
+            ChessPiece piece = null;
+            for (int n = 0; n < this.Situation.Positions.Length; n++)
+            //foreach(ChessPiece piece in this.Situation.Positions.Keys)
             {
+                piece = this.Situation.Codes[n];
                 item = new ChessPieceView(this.Situation.Pieces[this.Situation.Positions[piece]]);
                 item.Selected += func(piece);
-                items[piece.Code] = item;
+                items[n] = item;
                 board.Children.Add(item);
             }
             item = new ChessPieceView();
@@ -290,6 +306,10 @@ namespace Lin.Chess
 
         public void Move(ChessPiece piece, int position)
         {
+            if (this.Situation.Pieces[position] != null)//如果是吃子
+            {
+                this.items[this.Situation.Pieces[position].Code].Visibility = System.Windows.Visibility.Collapsed;
+            }
             this.Situation.Move(piece, position);
             this.RefeshPos();
             //piece.Position = (byte)positon;
@@ -301,8 +321,8 @@ namespace Lin.Chess
         public void Mark(int position, bool isMark)
         {
             chessMarkPos = position;
-            Canvas.SetLeft(items[32], vm.Positions[position].X);
-            Canvas.SetTop(items[32], vm.Positions[position].Y);
+            Canvas.SetLeft(items[32], vm.Positions[Position(position)].X);
+            Canvas.SetTop(items[32], vm.Positions[Position(position)].Y);
             items[32].Size = vm.Interval;
             items[32].IsMark = true;
         }
@@ -318,27 +338,57 @@ namespace Lin.Chess
                 item = this.items[n];
                 if (item != null)
                 {
-                    Canvas.SetLeft(item, vm.Positions[this.Situation.Positions[item.Piece]].X);
-                    Canvas.SetTop(item, vm.Positions[this.Situation.Positions[item.Piece]].Y);
+                    Canvas.SetLeft(item, vm.Positions[Position(item.Piece)].X);
+                    Canvas.SetTop(item, vm.Positions[Position(item.Piece)].Y);
                     item.Size = vm.Interval;
                 }
                 //Canvas.SetLeft(pieces[n], vm.Positions[pieces[n].Position].X);
                 //Canvas.SetTop(pieces[n], vm.Positions[pieces[n].Position].Y);
                 //pieces[n].Size = vm.Interval;
             }
+            Canvas.SetLeft(items[32], vm.Positions[Position(chessMarkPos)].X);
+            Canvas.SetTop(items[32], vm.Positions[Position(chessMarkPos)].Y);
+            items[32].Size = vm.Interval;
         }
+        private int Position(ChessPiece piece)
+        {
+            int pos = this.Situation.Positions[piece];
+            if (this.Mirror)
+            {
+                pos = 254 - pos;
+            }
 
+            return pos;
+        }
+        private int Position(int position)
+        {
+            if (this.Mirror)
+            {
+                position = 254 - position;
+            }
+
+            return position;
+        }
         public void Mark(ChessPiece piece, bool isMark)
         {
             this.items[piece.Code].IsMark = isMark;
         }
         #region 处理鼠标事件
 
+        private int GetPosition(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            int pos = vm.GetPositionFromXY(e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y);
+            if (this.Mirror)
+            {
+                pos = 254 - pos;
+            }
+            return pos;
+        }
         private void FireSelected(System.Windows.Input.MouseButtonEventArgs e)
         {
             if (this.Selected != null)
             {
-                int pos = vm.GetPositionFromXY(e.MouseDevice.GetPosition(this).X, e.MouseDevice.GetPosition(this).Y);
+                int pos = GetPosition(e);
                 if (pos < 256 && pos >= 0)
                 {
                     if (this.Situation.Pieces[pos] != null)//如果此处有棋子，则不响应相关事件

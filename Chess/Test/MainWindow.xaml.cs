@@ -26,6 +26,7 @@ namespace Test
         public MainWindow()
         {
             InitializeComponent();
+            //this.
         }
 
     }

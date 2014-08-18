@@ -11,13 +11,13 @@ namespace Lin.Chess
     public abstract class ChessView:Control
     {
         //public event SelectedEventHandler Selected;
-        public ChessboardView Checkerboard { get; private set; }
+        public ChessboardView Chessboard { get; private set; }
 
         public abstract ChessControl Control { get; }
 
         public ChessView()
         {
-            this.Checkerboard = new ChessboardView();
+            this.Chessboard = new ChessboardView();
             //this.Control = control;
             
         }

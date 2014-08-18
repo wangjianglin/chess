@@ -61,7 +61,7 @@
                         <Line  X1="{Binding BorderRight}" X2="{Binding BorderRight}" Y1="{Binding BorderTop}" Y2="{Binding BorderBottom}" Stroke="{Binding BorderStroke}" StrokeThickness="{Binding BorderStrokeThickness}"/>
                         <!--外边框 结束-->
                         <Grid Canvas.Top="{Binding Positions[0x73].Y}" Canvas.Left="{Binding Positions[0x73].X}" Width="{Binding CheckerboardWidth}" Height="{Binding Interval}">
-                            <TextBlock Text="楚   河" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正小篆体" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{Binding FontSize}" Width="{Binding FontWidth}">
+                            <TextBlock Foreground="#e8222222" FontWeight="ExtraBold" Text="楚   河" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正小篆体" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{Binding FontSize}" Width="{Binding FontWidth}">
                                 <!--<TextBlock.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform/>
@@ -71,7 +71,7 @@
                                     </TransformGroup>
                                 </TextBlock.RenderTransform>-->
                             </TextBlock>
-                            <TextBlock Text="汉   界" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正小篆体" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{Binding FontSize}" Width="{Binding FontWidth}"/>
+                            <TextBlock Foreground="#e8222222" FontWeight="ExtraBold" Text="汉   界" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正小篆体" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{Binding FontSize}" Width="{Binding FontWidth}"/>
                         </Grid>
                         <!--0x54标记 开始-->
                         <Line X1="{Binding PositionMark[0x54][0][0].X}" X2="{Binding PositionMark[0x54][0][1].X}" Y1="{Binding PositionMark[0x54][0][0].Y}" Y2="{Binding PositionMark[0x54][0][1].Y}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}"/>
@@ -220,6 +220,8 @@
                         <Polyline Points="{Binding PositionMark[0x54][1]}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}"/>
                         <Polyline Points="{Binding PositionMark[0x54][2]}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}"/>
                         <Polyline Points="{Binding PositionMark[0x54][3]}" Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}"/>-->
+
+                        <!--<Button Content="Mirror" Command="{Binding ChangeMirror}"/>-->
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

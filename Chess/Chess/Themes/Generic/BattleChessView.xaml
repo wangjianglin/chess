@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:local="clr-namespace:Lin.Chess"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style TargetType="local:TwoBattleChessView">
+    <Style TargetType="local:BattleChessView">
         <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
         <Setter Property="Template">
             <Setter.Value>

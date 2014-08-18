@@ -26,7 +26,7 @@ namespace Lin.Chess
         public TwoBattleChessView()
             : base()
         {
-            this._control = new TwoBattleChessControl(this.Checkerboard);
+            this._control = new TwoBattleChessControl(this.Chessboard);
         }
     }
 }

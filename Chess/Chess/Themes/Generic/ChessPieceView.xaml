@@ -10,13 +10,13 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Grid SnapsToDevicePixels="True" Background="Transparent" Width="{Binding Size}" Height="{Binding Size}" Margin="{Binding Margin}">
+                        <Rectangle Visibility="{Binding IsMark,Converter={StaticResource BoolToVisibilityConverter}}" Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="{x:Null}" Stroke="Red"/>
                         <Grid Visibility="{Binding IsContent}">
                             <Ellipse x:Name="PATH_ChessContent" Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             <Image IsHitTestVisible="False" Visibility="{Binding RedVisibility}" Source="/Lin.Chess;Component/Themes/Generic/Images/RedChess.png" Width="{Binding Diameter}" Height="{Binding Diameter}"/>
                             <Image IsHitTestVisible="False" Visibility="{Binding BlackVisibility}" Source="/Lin.Chess;Component/Themes/Generic/Images/BlackChess.png" Width="{Binding Diameter}" Height="{Binding Diameter}"/>
                             <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Chess}" Foreground="{Binding FontColor}" FontFamily="/Lin.Chess;Component/Themes/Generic/font/#方正隶书繁体" FontSize="{Binding FontSize}"/>
                         </Grid>
-                        <Rectangle Visibility="{Binding IsMark,Converter={StaticResource BoolToVisibilityConverter}}" Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="{x:Null}" Stroke="Red"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

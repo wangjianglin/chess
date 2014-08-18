@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractChessControl.cs" />
+    <Compile Include="BattleChessControl.cs" />
+    <Compile Include="BattleChessView.cs" />
     <Compile Include="BlackCannons.cs" />
     <Compile Include="BlackElephants.cs" />
     <Compile Include="BlackKing.cs" />
@@ -71,7 +73,8 @@
     <Compile Include="BlackPawns.cs" />
     <Compile Include="BlackRooks.cs" />
     <Compile Include="Cannons.cs" />
-    <Compile Include="ChessboardViewView.cs" />
+    <Compile Include="ChessboardConfig.cs" />
+    <Compile Include="ChessboardView.cs" />
     <Compile Include="ChessControl.cs" />
     <Compile Include="ChessPiece.cs" />
     <Compile Include="ChessPieceView.cs" />
@@ -101,13 +104,13 @@
       <DependentUpon>Chess.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Chessman.cs" />
-    <Page Include="Themes\ChessmanStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic\BattleChessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic\BlackCannons.xaml">
       <SubType>Designer</SubType>
