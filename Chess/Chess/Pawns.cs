@@ -21,6 +21,11 @@ namespace Lin.Chess
             {
                 return false;
             }
+            if (situation.Pieces[dest] != null && situation.Pieces[dest].Side == this.Side)
+            {
+                return false;
+            }
+
             int setp = dest - situation.Positions[this];
             if (situation.InHomeHalf(this, dest))//未过河
             {

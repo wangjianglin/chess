@@ -28,10 +28,15 @@ namespace Lin.Chess
             {
                 return false;
             }
-            int setp = dest - situation.Positions[this];
+            if (situation.Pieces[dest] != null && situation.Pieces[dest].Side == this.Side)
+            {
+                return false;
+            }
+            int pos = situation.Positions[this];
+            int setp = dest - pos;
             for (int n = 0; n < setps.GetLength(0); n++)
             {
-                if (setps[n, 0] == setp && situation.Pieces[situation.Positions[this] + setps[n, 1]] == null)
+                if (setps[n, 0] == setp && situation.Pieces[pos + setps[n, 1]] == null)
                 {
                     return true;
                 }

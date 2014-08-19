@@ -26,6 +26,6 @@ namespace Lin.Chess
             this._control = new BattleChessControl(this);
         }
 
-        public ChessPlayer Player { get { return ChessPlayer.Red; } }
+        public ChessSide Side { get { return ChessSide.Red; } }
     }
 }

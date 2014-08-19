@@ -26,7 +26,7 @@ namespace Lin.Chess
                 bool moveing = false;
                 while (true)
                 {
-                    if (moveing == false && view.Player != Situation.Player)
+                    if (moveing == false && view.Side != Situation.Side)
                     {
                         System.Threading.Thread.Sleep(2000);
                         moveing = true;
@@ -55,7 +55,7 @@ namespace Lin.Chess
             {
                 return;
             }
-            if (view.Player == Situation.Player)
+            if (view.Side == Situation.Side)
             {
                 base.OnSelected(args);
             }

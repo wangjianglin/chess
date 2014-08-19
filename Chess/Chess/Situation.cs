@@ -29,7 +29,7 @@ namespace Lin.Chess
 
         public Situation()
         {
-            Player = ChessPlayer.Red;
+            Side = ChessSide.Red;
             ChessPiece piece = null;
             for (int n = 0; n < 32; n++)
             {
@@ -157,8 +157,19 @@ namespace Lin.Chess
             this.positions[code] = position;
         }
 
-        public ChessPlayer Player { get; set; }
+        public ChessSide Side { get; set; }
 
+        /// <summary>
+        /// 判断当前是否被将军
+        /// </summary>
+        /// <returns></returns>
+        public bool Checked
+        {
+            get
+            {
+                return false;
+            }
+        }
         public Situation clone()
         {
             return new Situation(this);
@@ -240,6 +251,38 @@ namespace Lin.Chess
         public bool CanMove(ChessPiece piece, int position)
         {
             return piece.CanMove(this, position);
+        }
+
+        /// <summary>
+        /// 判断两个位置是否在同一行
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns>true：表示在同一行，false:表示不在同一行</returns>
+        public bool IsSameRank(int p1, int p2)
+        {
+            return ((p1 ^ p2) & 0xf0) == 0;
+        }
+
+        /// <summary>
+        /// 判断两个位置是否在同一列
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns>true：表示在同一列，false:表示不在同一列</returns>
+        public bool IsSameFile(int p1, int p2)
+        {
+            return ((p1 ^ p2) & 0x0f) == 0;
+        }
+        /// <summary>
+        /// 判断两个位置是否在同一行或同一列
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns>true：表示在同一行或同一列，false:表示不在同一行或同一列</returns>
+        public bool IsSameRankOrFile(int p1, int p2)
+        {
+            return ((p1 ^ p2) & 0xf0) == 0 || ((p1 ^ p2) & 0x0f) == 0;
         }
 
         private static readonly bool[] inBoard = {

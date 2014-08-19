@@ -81,7 +81,6 @@
     <Compile Include="ChessPlayer.cs" />
     <Compile Include="ChessView.cs" />
     <Compile Include="Elephants.cs" />
-    <Compile Include="IConverter.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Knights.cs" />
     <Compile Include="Mandarins.cs" />

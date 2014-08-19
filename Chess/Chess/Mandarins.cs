@@ -27,6 +27,11 @@ namespace Lin.Chess
             {
                 return false;
             }
+            if (situation.Pieces[dest] != null && situation.Pieces[dest].Side == this.Side)
+            {
+                return false;
+            }
+
             int setp = situation.Positions[this] - dest;
             for (int n = 0; n < setps.Length; n++)
             {

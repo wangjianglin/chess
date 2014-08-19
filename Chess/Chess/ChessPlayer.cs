@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lin.Chess
 {
-    public enum ChessPlayer
+    /// <summary>
+    /// 用于标记是黑方还是红方
+    /// </summary>
+    public enum ChessSide
     {
         Red,Black
     }

@@ -21,15 +21,15 @@ namespace Lin.Chess
             this.Code = code;
             if (code < 16)
             {
-                this.Player = ChessPlayer.Red;
+                this.Side = ChessSide.Red;
             }
             else
             {
-                this.Player = ChessPlayer.Black;
+                this.Side = ChessSide.Black;
             }
         }
 
-        public ChessPlayer Player { get; private set; }
+        public ChessSide Side { get; private set; }
 
         //public byte Position
         //{

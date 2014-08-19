@@ -25,13 +25,13 @@ namespace Lin.Chess
         }
         private void SwitchPlayer()
         {
-            if (Situation.Player == ChessPlayer.Red)
+            if (Situation.Side == ChessSide.Red)
             {
-                Situation.Player = ChessPlayer.Black;
+                Situation.Side = ChessSide.Black;
             }
             else
             {
-                Situation.Player = ChessPlayer.Red;
+                Situation.Side = ChessSide.Red;
             }
         }
         
@@ -63,7 +63,7 @@ namespace Lin.Chess
                 return;
             }
             Console.WriteLine("selected pos:" + args.Position);
-            if (args.Chess != null && args.Chess.Player == this.Situation.Player)
+            if (args.Chess != null && args.Chess.Side == this.Situation.Side)
             {
                 //args.Chess.IsMark = true;
                 this.Chessboard.Mark(args.Chess, true);
@@ -81,8 +81,10 @@ namespace Lin.Chess
                 {
                     //prePicec.IsMark = false;
                     //currPiece = null;
-                    this.Move(currPiece, args.Position);
-                    currPiece = null;
+                    if (this.Move(currPiece, args.Position))
+                    {
+                        currPiece = null;
+                    }
                 }
             }
         }
@@ -95,11 +97,15 @@ namespace Lin.Chess
         /// </summary>
         /// <param name="piece"></param>
         /// <param name="dest"></param>
-        protected void Move(ChessPiece piece, int dest)
+        protected bool Move(ChessPiece piece, int dest)
         {
+            if (Situation.Positions[piece] == dest)
+            {
+                return false;
+            }
             if (!this.Chessboard.CanMove(piece, dest))
             {
-                return;
+                return false;
             }
             this.OnPreMove(piece, dest);
             this.Chessboard.Mark(piece, true);
@@ -113,6 +119,7 @@ namespace Lin.Chess
             currPiece = null;
             this.SwitchPlayer();
             this.OnMove(piece, dest);
+            return true;
         }
 
         /// <summary>
