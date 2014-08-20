@@ -163,36 +163,17 @@
     <Resource Include="Themes\Generic\Images\BlackChess.png" />
     <Resource Include="Themes\Generic\Images\RedChess.png" />
     <Resource Include="Themes\Generic\Images\RedKing.png" />
-    <Resource Include="Images\BA.BMP" />
-    <Resource Include="Images\BB.BMP" />
-    <Resource Include="Images\BC.BMP" />
-    <Resource Include="Images\BK.BMP" />
-    <Resource Include="Images\BN.BMP" />
-    <Resource Include="Images\BOARD.BMP">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\BP.BMP" />
-    <Resource Include="Images\BR.BMP" />
-    <Content Include="Images\CAPTURE.WAV" />
-    <Content Include="Images\CAPTURE2.WAV" />
-    <Content Include="Images\CHECK.WAV" />
-    <Content Include="Images\CHECK2.WAV" />
-    <Content Include="Images\CLICK.WAV" />
-    <Content Include="Images\DRAW.WAV" />
-    <Content Include="Images\ILLEGAL.WAV" />
-    <Content Include="Images\LOSS.WAV" />
-    <Content Include="Images\MOVE.WAV" />
-    <Content Include="Images\MOVE2.WAV" />
-    <Resource Include="Images\RA.BMP" />
-    <Resource Include="Images\RB.BMP" />
-    <Resource Include="Images\RC.BMP" />
-    <Resource Include="Images\RK.BMP" />
-    <Resource Include="Images\RN.BMP" />
-    <Resource Include="Images\RP.BMP" />
-    <Resource Include="Images\RR.BMP" />
-    <Resource Include="Images\SELECTED.BMP" />
-    <Content Include="Images\WIN.WAV" />
-    <Resource Include="Images\XQWIZARD.ICO" />
+    <Content Include="res\CAPTURE.WAV" />
+    <Content Include="res\CAPTURE2.WAV" />
+    <Content Include="res\CHECK.WAV" />
+    <Content Include="res\CHECK2.WAV" />
+    <Content Include="res\CLICK.WAV" />
+    <Content Include="res\DRAW.WAV" />
+    <Content Include="res\ILLEGAL.WAV" />
+    <Content Include="res\LOSS.WAV" />
+    <Content Include="res\MOVE.WAV" />
+    <Content Include="res\MOVE2.WAV" />
+    <Content Include="res\WIN.WAV" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\dotnet\Core\Core.WPF.csproj">

@@ -23,17 +23,6 @@ namespace Lin.Chess
                 this.Situation = chessboard.Situation;
             }
         }
-        private void SwitchPlayer()
-        {
-            if (Situation.Side == ChessSide.Red)
-            {
-                Situation.Side = ChessSide.Black;
-            }
-            else
-            {
-                Situation.Side = ChessSide.Red;
-            }
-        }
         
        
         private ChessPiece currPiece = null;
@@ -117,7 +106,7 @@ namespace Lin.Chess
             }
             prePiece = piece;
             currPiece = null;
-            this.SwitchPlayer();
+            this.Situation.SwitchPlayer();
             this.OnMove(piece, dest);
             return true;
         }
