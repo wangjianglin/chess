@@ -8,9 +8,29 @@ namespace Lin.Chess
     public abstract class King : ChessPiece
     {
         internal King(int code) : base(code) { }
-        public override int[] Moves(Situation situation)
+        public override int[] Moves(Situation situation, bool capture = false)
         {
-            return null;
+            int pos = situation.Positions[this];
+            int dest = 0;
+            ChessPiece destPiece = null;
+            List<int> moves = new List<int>();
+            for (int i = 0; i < 4; i++)
+            {
+                dest = pos + setps[i];
+                destPiece = situation.Pieces[dest];
+                if (!situation.InFort(dest) ||
+                    (destPiece != null && destPiece.Side == this.Side))
+                {
+                    continue;
+                }
+                //pcDst = ucpcSquares[sqDst];
+                if (capture && destPiece == null)
+                {
+                    continue;
+                }
+                moves.Add(pos | (dest << 8) | (this.Code << 16));
+            }
+            return moves.ToArray();
         }
         private static readonly int[] setps = {-16, -1, 1, 16};
         public override bool CanMove(Situation situation, int dest)

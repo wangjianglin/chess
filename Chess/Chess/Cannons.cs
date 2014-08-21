@@ -12,9 +12,33 @@ namespace Lin.Chess
         {
             this.Chess = "炮";
         }
-        public override int[] Moves(Situation situation)
+        private static int[] setps = new int[] { -16, -1, 1, 16 };
+        public override int[] Moves(Situation situation, bool capture = false)
         {
-            return null;
+            int pos = situation.Positions[this];
+            int dest = 0;
+            List<int> moves = new List<int>();
+            for (int k = 0; k < 4; k++)
+            {
+                dest = pos + setps[k];
+                for (; situation.Pieces[dest] == null && situation.InChessboard(dest); dest += setps[k])
+                {
+                    if (!capture)
+                    {
+                        moves.Add(pos | (dest << 8) | (this.Code << 16));
+                    }
+                }
+                if (situation.InChessboard(dest))
+                {
+                    dest += setps[k];
+                    while (situation.Pieces[dest] == null && situation.InChessboard(dest)) { dest += setps[k]; }
+                    if (situation.InChessboard(dest) && situation.Pieces[dest].Side != Side)
+                    {
+                        moves.Add(pos | (dest << 8) | (this.Code << 16));
+                    }
+                }
+            }
+            return moves.ToArray();
         }
 
         public override bool CanMove(Situation situation, int dest)

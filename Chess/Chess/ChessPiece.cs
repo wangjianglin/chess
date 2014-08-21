@@ -42,7 +42,13 @@ namespace Lin.Chess
         /// </summary>
         //public abstract int[,] Setps { get; }
 
-        public abstract int[] Moves(Situation situation);
+        /// <summary>
+        /// 生成所有走法，如果"capture"为"true"则只生成吃子走法
+        /// </summary>
+        /// <param name="situation"></param>
+        /// <param name="capture"></param>
+        /// <returns></returns>
+        public abstract int[] Moves(Situation situation,bool capture = false);
 
         public abstract bool CanMove(Situation situation, int dest);
         //{
