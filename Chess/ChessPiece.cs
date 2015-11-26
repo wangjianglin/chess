@@ -44,6 +44,9 @@ namespace Lin.Chess
 
         /// <summary>
         /// 生成所有走法，如果"capture"为"true"则只生成吃子走法
+        /// 0-7 原来位置
+        /// 8-15 目标位置
+        /// 16-32 棋子
         /// </summary>
         /// <param name="situation"></param>
         /// <param name="capture"></param>

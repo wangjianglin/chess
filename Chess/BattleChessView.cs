@@ -12,7 +12,7 @@ namespace Lin.Chess
     /// </summary>
     public class BattleChessView : ChessView
     {
-        private ChessControl _control = null;//new TwoBattleChessControl(this.)
+        private BattleChessControl _control = null;//new TwoBattleChessControl(this.)
         public override ChessControl Control { get { return _control; } }
         //private dynamic vm = new TwoBattleChessViewVM();
 
@@ -24,8 +24,17 @@ namespace Lin.Chess
             : base()
         {
             this._control = new BattleChessControl(this);
+            this.Unloaded += ViewUnloaded;
+        }
+
+        private void ViewUnloaded(object sender, RoutedEventArgs e)
+        {
+            this.Unloaded -= ViewUnloaded;
+            _control.Stop();
         }
 
         public ChessSide Side { get { return ChessSide.Red; } }
+
+        
     }
 }

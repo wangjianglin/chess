@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\code\app\chess\Chess\Test\obj\Debug\
+X:\code\dotnet\chess\Test\obj\Debug\
 Test
 none
 false
 DEBUG;TRACE
-D:\code\app\chess\Chess\Test\App.xaml
+X:\code\dotnet\chess\Test\App.xaml
 11151548125
 
-9-1813185428
-161372245580
+974752194
+161914989920
 MainWindow.xaml;
 
 False

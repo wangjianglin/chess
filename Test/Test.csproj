@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test</RootNamespace>
     <AssemblyName>Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -95,15 +95,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\dotnet\Core\Core.WPF.csproj">
+    <ProjectReference Include="..\..\core\Core\Core.csproj">
       <Project>{ef7b23ca-42bb-4a6f-aa05-46ce65b9516f}</Project>
-      <Name>Core.WPF</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\dotnet\Plugin\Plugin.csproj">
+    <ProjectReference Include="..\..\core\Plugin\Plugin.csproj">
       <Project>{5da527f1-87ac-424e-98dd-687c8c6dd33b}</Project>
       <Name>Plugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\dotnet\Util\Util.csproj">
+    <ProjectReference Include="..\..\core\Util\Util.csproj">
       <Project>{8566a665-1bbd-472c-b0d7-037d261472ea}</Project>
       <Name>Util</Name>
     </ProjectReference>

@@ -42,7 +42,8 @@ namespace Lin.Chess
             //{
             //    return;
             //}
-            
+
+            Console.WriteLine("selected pos:" + args.Position);
             if (args.Position == 256)
             {
                 return;
@@ -51,7 +52,6 @@ namespace Lin.Chess
             {
                 return;
             }
-            Console.WriteLine("selected pos:" + args.Position);
             if (args.Chess != null && args.Chess.Side == this.Situation.Side)
             {
                 //args.Chess.IsMark = true;

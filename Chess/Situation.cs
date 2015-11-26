@@ -172,6 +172,8 @@ namespace Lin.Chess
 
 
         public bool CanBack { get { return true; } }
+
+        //悔棋
         public void Back()
         {
 
@@ -209,7 +211,7 @@ namespace Lin.Chess
                 return false;
             }
         }
-        public Situation clone(Situation other = null)
+        public Situation Clone(Situation other = null)
         {
             if (other == null)
             {
@@ -294,6 +296,7 @@ namespace Lin.Chess
         //public byte[] Positions { get; }
         private static readonly byte[] POSITIONS = new byte[] { 0xcb, 0xc3, 0xca, 0xc4, 0xc9, 0xc5, 0xc8, 0xc6, 0xc7, 0xaa, 0xa4, 0x9b, 0x99, 0x97, 0x95, 0x93, 0x33, 0x3b, 0x34, 0x3a, 0x35, 0x39, 0x36, 0x38, 0x37, 0x54, 0x5a, 0x63, 0x65, 0x67, 0x69, 0x6b };
 
+        //还要判断将军和将对面的情况
         public bool CanMove(ChessPiece piece, int position)
         {
             return piece.CanMove(this, position);
@@ -331,9 +334,98 @@ namespace Lin.Chess
             return ((p1 ^ p2) & 0xf0) == 0 || ((p1 ^ p2) & 0x0f) == 0;
         }
 
+//        // 判断是否被将军
+//        BOOL PositionStruct::Checked() const {
+//  int i, j, sqSrc, sqDst;
+//        int pcSelfSide, pcOppSide, pcDst, nDelta;
+//        pcSelfSide = SIDE_TAG(sdPlayer);
+//        pcOppSide = OPP_SIDE_TAG(sdPlayer);
+//  // 找到棋盘上的帅(将)，再做以下判断：
 
-        #region
-        private static readonly bool[] inBoard = {
+//  for (sqSrc = 0; sqSrc< 256; sqSrc ++) {
+//    if (ucpcSquares[sqSrc] != pcSelfSide + PIECE_KING) {
+//      continue;
+//    }
+
+//    // 1. 判断是否被对方的兵(卒)将军
+//    if (ucpcSquares[SQUARE_FORWARD(sqSrc, sdPlayer)] == pcOppSide + PIECE_PAWN) {
+//      return TRUE;
+//    }
+//    for (nDelta = -1; nDelta <= 1; nDelta += 2) {
+//      if (ucpcSquares[sqSrc + nDelta] == pcOppSide + PIECE_PAWN) {
+//        return TRUE;
+//      }
+//    }
+
+//    // 2. 判断是否被对方的马将军(以仕(士)的步长当作马腿)
+//    for (i = 0; i< 4; i ++) {
+//      if (ucpcSquares[sqSrc + ccAdvisorDelta[i]] != 0) {
+//        continue;
+//      }
+//      for (j = 0; j< 2; j ++) {
+//        pcDst = ucpcSquares[sqSrc + ccKnightCheckDelta[i][j]];
+//        if (pcDst == pcOppSide + PIECE_KNIGHT) {
+//          return TRUE;
+//        }
+//      }
+//    }
+
+//    // 3. 判断是否被对方的车或炮将军(包括将帅对脸)
+//    for (i = 0; i< 4; i ++) {
+//      nDelta = ccKingDelta[i];
+//      sqDst = sqSrc + nDelta;
+//      while (IN_BOARD(sqDst)) {
+//        pcDst = ucpcSquares[sqDst];
+//        if (pcDst != 0) {
+//          if (pcDst == pcOppSide + PIECE_ROOK || pcDst == pcOppSide + PIECE_KING) {
+//            return TRUE;
+//          }
+//          break;
+//        }
+//        sqDst += nDelta;
+//      }
+//      sqDst += nDelta;
+//      while (IN_BOARD(sqDst)) {
+//        int pcDst = ucpcSquares[sqDst];
+//        if (pcDst != 0) {
+//          if (pcDst == pcOppSide + PIECE_CANNON) {
+//            return TRUE;
+//          }
+//          break;
+//        }
+//        sqDst += nDelta;
+//      }
+//    }
+//    return FALSE;
+//  }
+//  return FALSE;
+//}
+
+//// 判断是否被杀
+//BOOL PositionStruct::IsMate(void)
+//{
+//    int i, nGenMoveNum, pcCaptured;
+//    int mvs[MAX_GEN_MOVES];
+
+//    nGenMoveNum = GenerateMoves(mvs);
+//    for (i = 0; i < nGenMoveNum; i++)
+//    {
+//        pcCaptured = MovePiece(mvs[i]);
+//        if (!Checked())
+//        {
+//            UndoMovePiece(mvs[i], pcCaptured);
+//            return FALSE;
+//        }
+//        else
+//        {
+//            UndoMovePiece(mvs[i], pcCaptured);
+//        }
+//    }
+//    return TRUE;
+//}
+#region
+//棋盘
+private static readonly bool[] inBoard = {
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
@@ -352,6 +444,7 @@ namespace Lin.Chess
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
         };
 
+        //九宫格
         private static readonly bool[] inFort = {
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
           false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
